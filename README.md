@@ -17,7 +17,7 @@ preprocessors:
     - runcommands:
         commands:
            - ./build.sh
-           - - echo "Hello World" > ${WORKING_DIR}/hello.txt
+           - echo "Hello World" > ${WORKING_DIR}/hello.txt
     - targets:
         - pre
         - tex
