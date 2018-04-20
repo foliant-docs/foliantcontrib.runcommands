@@ -18,7 +18,16 @@ class Preprocessor(BasePreprocessor):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.logger = self.logger.getChild('runcommands')
+
+        self.logger.debug(f'Preprocessor inited: {self.__dict__}')
+
     def apply(self):
+        self.logger.info('Applying preprocessor')
+
+        self.logger.debug(f'Allowed targets: {self.options["targets"]}')
+        self.logger.debug(f'Current target: {self.context["target"]}')
+
         if not self.options['targets'] or self.context['target'] in self.options['targets']:
             if self.options['commands']:
                 project_dir_pattern = re.compile(
@@ -73,7 +82,13 @@ class Preprocessor(BasePreprocessor):
                     )
 
                     try:
+                        self.logger.debug(f'Running command: {command}')
+
                         run(command, shell=True, check=True, stdout=PIPE, stderr=STDOUT)
 
                     except CalledProcessError as exception:
+                        self.logger.error(str(exception))
+
                         raise RuntimeError(f'Failed: {exception.output.decode()}')
+
+        self.logger.info('Preprocessor applied')
