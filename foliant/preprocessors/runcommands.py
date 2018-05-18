@@ -30,55 +30,30 @@ class Preprocessor(BasePreprocessor):
 
         if not self.options['targets'] or self.context['target'] in self.options['targets']:
             if self.options['commands']:
-                project_dir_pattern = re.compile(
-                    '(\$\{PROJECT_DIR\})'
-                )
-
-                src_dir_pattern = re.compile(
-                    '(\$\{SRC_DIR\})'
-                )
-
-                working_dir_pattern = re.compile(
-                    '(\$\{WORKING_DIR\})'
-                )
-
-                backend_pattern = re.compile(
-                    '(\$\{BACKEND\})'
-                )
-
-                target_pattern = re.compile(
-                    '(\$\{TARGET\})'
-                )
-
                 for command in self.options['commands']:
-                    command = re.sub(
-                        project_dir_pattern,
-                        f'{self.project_path.absolute().as_posix()}',
-                        command
+                    command = command.replace(
+                        '${PROJECT_DIR}',
+                        f'{self.project_path.absolute().as_posix()}'
                     )
 
-                    command = re.sub(
-                        src_dir_pattern,
-                        f'{(self.project_path / self.config["src_dir"]).absolute().as_posix()}',
-                        command
+                    command = command.replace(
+                        '${SRC_DIR}',
+                        f'{(self.project_path / self.config["src_dir"]).absolute().as_posix()}'
                     )
 
-                    command = re.sub(
-                        working_dir_pattern,
-                        f'{self.working_dir.absolute().as_posix()}',
-                        command
+                    command = command.replace(
+                        '${WORKING_DIR}',
+                        f'{self.working_dir.absolute().as_posix()}'
                     )
 
-                    command = re.sub(
-                        backend_pattern,
-                        f'{self.context["backend"]}',
-                        command
+                    command = command.replace(
+                        '${BACKEND}',
+                        f'{self.context["backend"]}'
                     )
 
-                    command = re.sub(
-                        target_pattern,
-                        f'{self.context["target"]}',
-                        command
+                    command = command.replace(
+                        '${TARGET}',
+                        f'{self.context["target"]}'
                     )
 
                     try:
