@@ -16,13 +16,13 @@ To enable the preprocessor, add `runcommands` to `preprocessors` section in the 
 preprocessors:
     - runcommands:
         commands:
-           - ./build.sh
-           - echo "Hello World" > ${WORKING_DIR}/hello.txt
+            - ./build.sh
+            - echo "Hello World" > ${WORKING_DIR}/hello.txt
         targets:
-          - pre
-          - tex
-          - pdf
-          - docx
+            - pre
+            - tex
+            - pdf
+            - docx
 ```
 
 `commands`
