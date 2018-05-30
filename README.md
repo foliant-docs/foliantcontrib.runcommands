@@ -18,11 +18,11 @@ preprocessors:
         commands:
            - ./build.sh
            - echo "Hello World" > ${WORKING_DIR}/hello.txt
-    - targets:
-        - pre
-        - tex
-        - pdf
-        - docx
+        targets:
+          - pre
+          - tex
+          - pdf
+          - docx
 ```
 
 `commands`
