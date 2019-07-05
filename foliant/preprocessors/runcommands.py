@@ -3,7 +3,6 @@ Preprocessor for Foliant documentation authoring tool.
 Allows to run arbitrary external commands.
 '''
 
-import re
 from subprocess import run, PIPE, STDOUT, CalledProcessError
 
 from foliant.preprocessors.base import BasePreprocessor
@@ -13,6 +12,7 @@ class Preprocessor(BasePreprocessor):
     defaults = {
         'commands': [],
         'targets': [],
+        'verbose': False
     }
 
     def __init__(self, *args, **kwargs):
@@ -55,12 +55,16 @@ class Preprocessor(BasePreprocessor):
                         '${TARGET}',
                         f'{self.context["target"]}'
                     )
-
                     try:
                         self.logger.debug(f'Running command: {command}')
 
-                        run(command, shell=True, check=True, stdout=PIPE, stderr=STDOUT)
-
+                        if self.options['verbose'] and not self.quiet:
+                            # showing command output to user
+                            run(command, shell=True, check=True, stderr=STDOUT)
+                        else:
+                            # suppressing output
+                            buffer = run(command, shell=True, check=True, stdout=PIPE, stderr=STDOUT)
+                            self.logger.debug(f'Command output: {buffer.stdout}')
                     except CalledProcessError as exception:
                         self.logger.error(str(exception))
 
