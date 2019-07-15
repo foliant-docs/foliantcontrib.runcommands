@@ -31,9 +31,6 @@ preprocessors:
 `targets`
 :   Allowed targets for the preprocessor. If not specified (by default), the preprocessor applies to all targets.
 
-`verbose`
-:   Show output of the commands in console. (ignored if `quiet` flag is on) Default: `false`
-
 ### Supported environment variables
 
 You may use the following environment variables in your commands:
